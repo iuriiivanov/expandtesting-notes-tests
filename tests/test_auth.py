@@ -143,7 +143,7 @@ class TestUserLogin:
 
         with allure.step("Verify 401 Unauthorized"):
             assert response.status_code == 401
-            assert response.json()["message"] == "Unauthorized Request"
+            assert response.json()["message"] == "No authentication token specified in x-auth-token header"
 
 
 @allure.feature("Authentication")
