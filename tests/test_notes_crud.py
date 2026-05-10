@@ -10,7 +10,6 @@ from src.api import endpoints
 from src.api.client import ApiClient
 from src.models.note import NoteCreateRequest, NoteUpdateRequest
 
-# Тип для фабрики заметок
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 
 
@@ -54,9 +53,7 @@ class TestCreateNote:
 
     @allure.title("Create note with empty title fails")
     @pytest.mark.regression
-    def test_create_note_empty_title(
-        self, authenticated_client: ApiClient
-    ) -> None:
+    def test_create_note_empty_title(self, authenticated_client: ApiClient) -> None:
         """TC-002.1.4: Empty title returns 400."""
         payload = NoteCreateRequest(title="", description="desc", category="Home").model_dump()
         response = authenticated_client.post(endpoints.NOTES, data=payload)
@@ -65,13 +62,10 @@ class TestCreateNote:
 
     @allure.title("Create note with invalid category fails")
     @pytest.mark.regression
-    def test_create_note_invalid_category(
-        self, authenticated_client: ApiClient
-    ) -> None:
+    def test_create_note_invalid_category(self, authenticated_client: ApiClient) -> None:
         """TC-002.1.6: Invalid category returns 400."""
         response = authenticated_client.post(
-            endpoints.NOTES,
-            data={"title": "Test", "description": "Test", "category": "Invalid"},
+            endpoints.NOTES, data={"title": "Test", "description": "Test", "category": "Invalid"}
         )
         assert response.status_code == 400
 
@@ -80,8 +74,7 @@ class TestCreateNote:
     def test_create_note_no_token(self, client: ApiClient) -> None:
         """TC-002.1.7: No token returns 401."""
         response = client.post(
-            endpoints.NOTES,
-            data={"title": "Test", "description": "Test", "category": "Home"},
+            endpoints.NOTES, data={"title": "Test", "description": "Test", "category": "Home"}
         )
         assert response.status_code == 401
 
@@ -150,10 +143,7 @@ class TestUpdateNote:
         note_id = created["id"]
 
         payload = NoteUpdateRequest(
-            title="Updated Title",
-            description="Updated Desc",
-            completed=True,
-            category="Work",
+            title="Updated Title", description="Updated Desc", completed=True, category="Work"
         ).model_dump()
 
         with allure.step("Send PUT request"):
@@ -174,9 +164,7 @@ class TestUpdateNote:
         payload = NoteUpdateRequest(
             title="Test", description="Test", completed=False, category="Home"
         ).model_dump()
-        response = authenticated_client.put(
-            endpoints.note_by_id("nonexistent"), data=payload
-        )
+        response = authenticated_client.put(endpoints.note_by_id("nonexistent"), data=payload)
         assert response.status_code == 400
 
 
