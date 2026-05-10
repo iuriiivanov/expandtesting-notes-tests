@@ -55,7 +55,7 @@ class TestUserRegistration:
             )
 
         with allure.step("Verify error response"):
-            assert response.status_code == 400
+            assert response.status_code == 409
             data = response.json()
             assert data["success"] is False
 
