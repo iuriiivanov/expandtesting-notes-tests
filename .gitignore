@@ -1,0 +1,57 @@
+# IDEA files
+.idea/
+
+# VS Code files
+.vscode/
+
+# IDE
+*.swp
+*.swo
+
+# SonarQube files
+.sonar/
+
+# Python
+__pycache__/
+build/
+dist/
+wheels/
+ENV/
+env/
+*.egg-info/
+*.py[oc]
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Pytest
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Byte-compiled / optimized / DLL / files
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Allure
+allure-results/
+allure-report/
+allure-reports/
+allure-history/
+
+# Environment
+.env.local
+.env
+.env_dev
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp Files
+temp*.*
