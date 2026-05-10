@@ -55,8 +55,9 @@ class TestCreateNote:
     @pytest.mark.regression
     def test_create_note_empty_title(self, authenticated_client: ApiClient) -> None:
         """TC-002.1.4: Empty title returns 400."""
-        payload = NoteCreateRequest(title="", description="desc", category="Home").model_dump()
-        response = authenticated_client.post(endpoints.NOTES, data=payload)
+        response = authenticated_client.post(
+            endpoints.NOTES, data={"title": "", "description": "desc", "category": "Home"}
+        )
         assert response.status_code == 400
         assert response.json()["success"] is False
 
