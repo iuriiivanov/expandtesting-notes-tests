@@ -8,7 +8,7 @@ import pytest
 
 from src.api import endpoints
 from src.api.client import ApiClient
-from src.models.note import NoteCreateRequest, NoteUpdateRequest
+from src.models.note import NoteUpdateRequest
 
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 
