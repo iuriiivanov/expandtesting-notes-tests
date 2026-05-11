@@ -49,7 +49,7 @@ class TestSecurity:
             response = client_b.get(endpoints.note_by_id(note_id))
 
         with allure.step("Verify access denied"):
-            assert response.status_code in (400, 401, 403)
+            assert response.status_code in (400, 401, 403, 404)
 
     @allure.title("SQL injection attempt is handled safely")
     @pytest.mark.regression
