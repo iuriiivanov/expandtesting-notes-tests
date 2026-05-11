@@ -143,9 +143,12 @@ class TestUpdateNote:
         created = note_factory("Original", "Original Desc", "Home")
         note_id = created["id"]
 
-        payload = NoteUpdateRequest(
-            title="Updated Title", description="Updated Desc", completed=True, category="Work"
-        ).model_dump()
+        payload = {
+            "title": "Updated Title",
+            "description": "Updated Desc",
+            "completed": "true",
+            "category": "Work",
+        }
 
         with allure.step("Send PUT request"):
             response = authenticated_client.put(endpoints.note_by_id(note_id), data=payload)
