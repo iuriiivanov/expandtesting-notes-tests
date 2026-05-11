@@ -195,7 +195,7 @@ class TestDeleteNote:
 
         with allure.step("Verify note is gone"):
             get_response = authenticated_client.get(endpoints.note_by_id(note_id))
-            assert get_response.status_code == 400
+            assert get_response.status_code == 404
 
     @allure.title("Delete non-existent note fails")
     @pytest.mark.regression
