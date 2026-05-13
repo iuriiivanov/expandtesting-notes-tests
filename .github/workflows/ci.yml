@@ -2,9 +2,15 @@ name: API Tests CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.env.example'
+      - 'scripts/**'
+      - '.github/workflows/**'
 
 jobs:
   test:
