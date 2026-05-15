@@ -5,8 +5,8 @@ WORKDIR /app
 RUN pip install uv
 
 COPY pyproject.toml ./
-COPY src ./src
-COPY tests ./tests
+COPY backend/src ./src
+COPY backend/tests ./tests
 
 RUN uv pip install --system -e .
 

@@ -2,11 +2,8 @@
 
 import allure
 import pytest
-
-from src.api import endpoints
-from src.api.auth import register_user
-from src.api.client import ApiClient
-from src.utils.helpers import generate_unique_email, generate_unique_name
+from api import ApiClient, endpoints, register_user
+from utils import generate_unique_email, generate_unique_name
 
 
 @allure.feature("Authentication")
@@ -143,7 +140,10 @@ class TestUserLogin:
 
         with allure.step("Verify 401 Unauthorized"):
             assert response.status_code == 401
-            assert response.json()["message"] == "No authentication token specified in x-auth-token header"
+            assert (
+                response.json()["message"]
+                == "No authentication token specified in x-auth-token header"
+            )
 
 
 @allure.feature("Authentication")

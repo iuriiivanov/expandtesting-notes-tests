@@ -3,10 +3,9 @@
 from typing import Any
 
 import allure
-
-from src.api import endpoints
-from src.api.client import ApiClient
-from src.models.user import UserLoginRequest, UserRegisterRequest
+from api import endpoints
+from api.client import ApiClient
+from models.user import UserLoginRequest, UserRegisterRequest
 
 
 @allure.step("Register new user with name={name}, email={email}")

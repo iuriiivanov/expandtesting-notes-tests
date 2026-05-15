@@ -2,11 +2,8 @@
 
 import allure
 import pytest
-
-from src.api import endpoints
-from src.api.auth import register_user
-from src.api.client import ApiClient
-from src.utils.helpers import generate_unique_email, generate_unique_name
+from api import ApiClient, endpoints, register_user
+from utils import generate_unique_email, generate_unique_name
 
 
 @allure.feature("Security")
@@ -30,7 +27,7 @@ class TestSecurity:
         password = "TestPass123!"
         register_user(client, name=generate_unique_name(), email=email_a, password=password)
 
-        from src.api.auth import login_user
+        from api import login_user
 
         token_a = login_user(client, email=email_a, password=password)
 

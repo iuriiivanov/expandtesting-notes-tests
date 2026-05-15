@@ -3,8 +3,7 @@
 import allure
 import pytest
 import requests
-
-from src.api import endpoints
+from api import endpoints
 
 
 @allure.feature("Health Check")
@@ -22,4 +21,3 @@ def test_health_check() -> None:
         data = response.json()
         assert data["success"] is True
         assert data["status"] == 200
-
