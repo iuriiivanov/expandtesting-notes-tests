@@ -5,10 +5,7 @@ from typing import Any
 
 import allure
 import pytest
-
-from src.api import endpoints
-from src.api.client import ApiClient
-
+from api import ApiClient, endpoints
 
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 

@@ -2,9 +2,7 @@
 
 import allure
 import pytest
-
-from src.api import endpoints
-from src.api.client import ApiClient
+from api import ApiClient, endpoints
 
 
 @allure.feature("Validation")
@@ -33,4 +31,3 @@ class TestValidation:
             assert "message" in data
             assert data["success"] is False
             assert isinstance(data["status"], int)
-
