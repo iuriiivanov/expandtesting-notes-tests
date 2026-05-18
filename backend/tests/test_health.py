@@ -3,7 +3,7 @@
 import allure
 import pytest
 import requests
-from api import endpoints
+from backend.src.api import endpoints
 
 
 @allure.feature("Health Check")
