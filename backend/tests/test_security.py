@@ -2,6 +2,7 @@
 
 import allure
 import pytest
+
 from backend.src.api import endpoints
 from backend.src.api.auth import register_user
 from backend.src.api.client import ApiClient
@@ -29,7 +30,7 @@ class TestSecurity:
         password = "TestPass123!"
         register_user(client, name=generate_unique_name(), email=email_a, password=password)
 
-        from api import login_user
+        from backend.src.api.auth import login_user
 
         token_a = login_user(client, email=email_a, password=password)
 

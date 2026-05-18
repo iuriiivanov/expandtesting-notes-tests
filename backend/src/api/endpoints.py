@@ -1,6 +1,6 @@
 """API endpoint URLs."""
 
-from config.settings import settings
+from backend.src.config.settings import settings
 
 BASE_URL: str = settings.API_BASE_URL
 
