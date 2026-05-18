@@ -2,7 +2,8 @@
 
 import allure
 import pytest
-from api import ApiClient, endpoints
+from backend.src.api import endpoints
+from backend.src.api.client import ApiClient
 
 
 @allure.feature("Validation")

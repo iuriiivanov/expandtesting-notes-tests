@@ -2,8 +2,10 @@
 
 import allure
 import pytest
-from api import ApiClient, endpoints, register_user
-from utils import generate_unique_email, generate_unique_name
+from backend.src.api import endpoints
+from backend.src.api.auth import register_user
+from backend.src.api.client import ApiClient
+from backend.src.utils.helpers import generate_unique_email, generate_unique_name
 
 
 @allure.feature("Authentication")

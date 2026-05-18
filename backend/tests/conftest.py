@@ -7,7 +7,8 @@ from typing import Any
 import allure
 import pytest
 import requests
-from api import ApiClient, delete_account, login_user, register_user
+from backend.src.api.auth import delete_account, login_user, register_user
+from backend.src.api.client import ApiClient
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -51,8 +52,8 @@ def authenticated_client() -> Generator[ApiClient, None, None]:
 @pytest.fixture
 def note_factory(authenticated_client: ApiClient) -> Generator[Any, None, None]:
     """Factory fixture to create notes and auto-cleanup."""
-    from api import endpoints
-    from models import NoteCreateRequest
+    from backend.src.api import endpoints
+    from backend.src.models.note import NoteCreateRequest
 
     created_notes: list[str] = []
 
