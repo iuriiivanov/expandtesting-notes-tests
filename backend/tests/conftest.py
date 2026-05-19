@@ -28,13 +28,19 @@ def client() -> ApiClient:
 
 
 @pytest.fixture
-def authenticated_client() -> Generator[ApiClient, None, None]:
+def test_password() -> str:
+    """Return consistent test password for all auth tests."""
+    return "TestPass123!"
+
+
+@pytest.fixture
+def authenticated_client(test_password: str) -> Generator[ApiClient, None, None]:
     """Return authenticated API client with a test user."""
     client = ApiClient()
 
     with allure.step("Create test user for authenticated client"):
         email = f"auth_test_{os.urandom(4).hex()}@example.com"
-        password = "TestPass123!"
+        password = test_password
         name = f"AuthTest_{os.urandom(4).hex()}"
 
         register_user(client, name=name, email=email, password=password)
