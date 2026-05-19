@@ -3,6 +3,7 @@
 import allure
 import pytest
 import requests
+
 from backend.src.api import endpoints
 
 
