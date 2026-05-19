@@ -188,7 +188,7 @@ wheels = [
 [[package]]
 name = "expandtesting-api-testing-project"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "allure-pytest" },
     { name = "allure-python-commons" },
