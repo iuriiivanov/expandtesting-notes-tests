@@ -2,9 +2,9 @@ name: API Tests CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
     paths-ignore:
       - '.gitignore'
       - '.env.example'
@@ -36,16 +36,12 @@ jobs:
         if: always()
         run: uv run pytest --alluredir=allure-results
 
-      - name: Generate Allure Report
-        if: always()
-        run: uv run allure generate allure-results -o allure-report --clean
-
-      - name: Upload Allure Report
+      - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: allure-report
+          name: allure-results
+          path: allure-results
 
   docker-test:
     runs-on: ubuntu-latest
