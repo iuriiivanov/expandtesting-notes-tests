@@ -5,6 +5,7 @@ from typing import Any
 
 import allure
 import pytest
+
 from backend.src.api import endpoints
 from backend.src.api.client import ApiClient
 from backend.src.models.note import NoteUpdateRequest

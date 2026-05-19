@@ -7,9 +7,10 @@ from typing import Any
 import allure
 import pytest
 import requests
+from dotenv import load_dotenv
+
 from backend.src.api.auth import delete_account, login_user, register_user
 from backend.src.api.client import ApiClient
-from dotenv import load_dotenv
 
 load_dotenv()
 
