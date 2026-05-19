@@ -16,10 +16,10 @@ class TestUserRegistration:
 
     @allure.title("Successfully register a new user")
     @pytest.mark.smoke
-    def test_register_user_success(self, client: ApiClient) -> None:
+    def test_register_user_success(self, client: ApiClient, test_password: str) -> None:
         """TC-001.1.1: Successful user registration."""
         email = generate_unique_email()
-        password = "TestPass123!"
+        password = test_password
         name = generate_unique_name()
 
         with allure.step("Send registration request"):
@@ -39,10 +39,10 @@ class TestUserRegistration:
 
     @allure.title("Register with duplicate email fails")
     @pytest.mark.regression
-    def test_register_duplicate_email(self, client: ApiClient) -> None:
+    def test_register_duplicate_email(self, client: ApiClient, test_password: str) -> None:
         """TC-001.1.2: Registration with existing email fails."""
         email = generate_unique_email()
-        password = "TestPass123!"
+        password = test_password
         name = generate_unique_name()
 
         with allure.step("Register first user"):
@@ -94,10 +94,10 @@ class TestUserLogin:
 
     @allure.title("Successfully login with valid credentials")
     @pytest.mark.smoke
-    def test_login_success(self, client: ApiClient) -> None:
+    def test_login_success(self, client: ApiClient, test_password: str) -> None:
         """TC-001.2.1: Successful login."""
         email = generate_unique_email()
-        password = "TestPass123!"
+        password = test_password
         name = generate_unique_name()
 
         with allure.step("Register user first"):
@@ -116,10 +116,10 @@ class TestUserLogin:
 
     @allure.title("Login with wrong password fails")
     @pytest.mark.regression
-    def test_login_wrong_password(self, client: ApiClient) -> None:
+    def test_login_wrong_password(self, client: ApiClient, test_password: str) -> None:
         """TC-001.2.2: Login with wrong password returns 401."""
         email = generate_unique_email()
-        password = "TestPass123!"
+        password = test_password
         name = generate_unique_name()
 
         with allure.step("Register user"):

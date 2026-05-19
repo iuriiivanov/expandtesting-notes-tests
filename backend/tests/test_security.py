@@ -24,10 +24,10 @@ class TestSecurity:
 
     @allure.title("User cannot access another user's notes")
     @pytest.mark.integration
-    def test_note_isolation(self, client: ApiClient) -> None:
+    def test_note_isolation(self, client: ApiClient, test_password: str) -> None:
         """TC-005.1.3: Data isolation between users."""
         email_a = generate_unique_email()
-        password = "TestPass123!"
+        password = test_password
         register_user(client, name=generate_unique_name(), email=email_a, password=password)
 
         from backend.src.api.auth import login_user
