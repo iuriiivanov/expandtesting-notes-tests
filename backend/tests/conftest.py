@@ -34,7 +34,7 @@ def test_password() -> str:
 
 
 @pytest.fixture
-def authenticated_client(test_password: str) -> Generator[ApiClient, None, None]:
+def authenticated_client(test_password: str) -> Generator[ApiClient]:
     """Return authenticated API client with a test user."""
     client = ApiClient()
 
@@ -57,7 +57,7 @@ def authenticated_client(test_password: str) -> Generator[ApiClient, None, None]
 
 
 @pytest.fixture
-def note_factory(authenticated_client: ApiClient) -> Generator[Any, None, None]:
+def note_factory(authenticated_client: ApiClient) -> Generator[Any]:
     """Factory fixture to create notes and auto-cleanup."""
     from backend.src.api import endpoints
     from backend.src.models.note import NoteCreateRequest
