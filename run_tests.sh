@@ -24,11 +24,10 @@ if [ "$KEEP_HISTORY" = true ] && [ -d "allure-report/history" ]; then
 fi
 
 echo "🚀 Running tests..."
-uv run pytest --alluredir=allure-results -v
+uv run pytest backend/tests --alluredir=allure-results -v
 
 echo ""
-echo "📁 Results: $(ls allure-results/*.json 2>/dev/null | wc -l) test result files"
-
+echo "📁 Results: $(find allure-results -maxdepth 1 -name '*.json' 2>/dev/null | wc -l) test result files"
 echo ""
 echo "✅ Done! Choose how to view:"
 echo ""
