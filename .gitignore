@@ -53,5 +53,9 @@ allure-history/
 .DS_Store
 Thumbs.db
 
+# Logs
+logs/latest.json
+logs/archive/
+
 # Temp Files
 temp*.*
