@@ -4,6 +4,8 @@ from typing import Any
 
 import requests
 
+DEFAULT_TIMEOUT: float = 30.0
+
 
 class ApiClient:
     """HTTP client for Notes API."""
@@ -35,7 +37,7 @@ class ApiClient:
         self,
         url: str,
         *,
-        timeout: float | tuple[float, float] | None = None,
+        timeout: float | tuple[float, float] | None = DEFAULT_TIMEOUT,
         headers: dict[str, str] | None = None,
         params: dict[str, Any] | None = None,
     ) -> requests.Response:
@@ -54,7 +56,7 @@ class ApiClient:
         url: str,
         data: dict[str, Any] | None = None,
         *,
-        timeout: float | tuple[float, float] | None = None,
+        timeout: float | tuple[float, float] | None = DEFAULT_TIMEOUT,
         headers: dict[str, str] | None = None,
     ) -> requests.Response:
         """Send POST request."""
@@ -72,7 +74,7 @@ class ApiClient:
         url: str,
         data: dict[str, Any] | None = None,
         *,
-        timeout: float | tuple[float, float] | None = None,
+        timeout: float | tuple[float, float] | None = DEFAULT_TIMEOUT,
         headers: dict[str, str] | None = None,
     ) -> requests.Response:
         """Send PUT request."""
@@ -90,7 +92,7 @@ class ApiClient:
         url: str,
         data: dict[str, Any] | None = None,
         *,
-        timeout: float | tuple[float, float] | None = None,
+        timeout: float | tuple[float, float] | None = DEFAULT_TIMEOUT,
         headers: dict[str, str] | None = None,
     ) -> requests.Response:
         """Send PATCH request."""
@@ -107,7 +109,7 @@ class ApiClient:
         self,
         url: str,
         *,
-        timeout: float | tuple[float, float] | None = None,
+        timeout: float | tuple[float, float] | None = DEFAULT_TIMEOUT,
         headers: dict[str, str] | None = None,
     ) -> requests.Response:
         """Send DELETE request."""
