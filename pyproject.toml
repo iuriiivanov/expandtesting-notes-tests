@@ -79,7 +79,8 @@ exclude = ["^\\.venv/"]
 target-version = "py313"
 line-length = 100
 indent-width = 4
-src = ["src"]
+src = ["backend/src"]
+cache-dir = ".venv/.cache/ruff_cache"
 
 [tool.ruff.lint]
 preview = true
@@ -89,7 +90,6 @@ select = [
     "E",
     "F",
     "W",
-    "F",
     "B",
     "C4",
     "S",
@@ -147,7 +147,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "tests/**",
 ]
 fixable = [
     "I",
