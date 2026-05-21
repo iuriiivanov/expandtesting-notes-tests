@@ -1,7 +1,7 @@
 """Pytest fixtures."""
 
 import os
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from typing import Any
 
 import allure
@@ -72,7 +72,9 @@ def authenticated_client(test_password: str, test_logger: TestLogger) -> Generat
 
 
 @pytest.fixture
-def note_factory(authenticated_client: ApiClient, test_logger: TestLogger) -> Generator[Any]:
+def note_factory(
+    authenticated_client: ApiClient, test_logger: TestLogger
+) -> Generator[Callable[[str, str, str], dict[str, Any]]]:
     """Factory fixture to create notes and auto-cleanup."""
     from backend.src.api import endpoints
     from backend.src.models.note import NoteCreateRequest
