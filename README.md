@@ -37,14 +37,7 @@ This project is built to demonstrate my skills and knowledge in automated softwa
 # Install dependencies
 uv pip install -e .
 ```
-### Environment Setup
 
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit .env if needed
-```
 ### Run Tests
 
 #### Via script (recommended):

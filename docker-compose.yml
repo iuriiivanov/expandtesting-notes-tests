@@ -6,5 +6,6 @@ services:
       - ./allure-results:/app/allure-results
     environment:
       - PYTHONUNBUFFERED=1
+      - API_BASE_URL=${API_BASE_URL:-https://practice.expandtesting.com/notes/api}
     command: >
       sh -c "uv run pytest --alluredir=allure-results"
