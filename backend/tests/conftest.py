@@ -72,7 +72,6 @@ def authenticated_client(test_password: str, test_logger: TestLogger) -> Generat
 
 
 @pytest.fixture
-@pytest.fixture
 def note_factory(
     authenticated_client: ApiClient, test_logger: TestLogger
 ) -> Generator[Callable[[str, str, str], dict[str, Any]]]:
