@@ -8,7 +8,12 @@ import pytest
 
 from backend.src.api import endpoints
 from backend.src.api.client import ApiClient
-from backend.src.models.note import NoteUpdateRequest
+from backend.src.models.note import (
+    NoteData,
+    NoteDeleteResponse,
+    NoteResponse,
+    NoteUpdateRequest,
+)
 
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 
@@ -27,11 +32,12 @@ class TestCreateNote:
         with allure.step("Create note via factory"):
             note = note_factory("Home Task", "Do something at home", "Home")
 
-        with allure.step("Verify note data"):
-            assert note["title"] == "Home Task"
-            assert note["category"] == "Home"
-            assert note["completed"] is False
-            assert "id" in note
+        with allure.step("Verify note data via Pydantic model"):
+            validated = NoteData(**note)
+            assert validated.title == "Home Task"
+            assert validated.category == "Home"
+            assert validated.completed is False
+            assert validated.id
 
     @allure.title("Successfully create note with category Work")
     @pytest.mark.smoke
@@ -40,7 +46,8 @@ class TestCreateNote:
     ) -> None:
         """TC-002.1.2: Create note category Work."""
         note = note_factory("Work Task", "Do something at work", "Work")
-        assert note["category"] == "Work"
+        validated = NoteData(**note)
+        assert validated.category == "Work"
 
     @allure.title("Successfully create note with category Personal")
     @pytest.mark.smoke
@@ -49,7 +56,8 @@ class TestCreateNote:
     ) -> None:
         """TC-002.1.3: Create note category Personal."""
         note = note_factory("Personal Task", "Do something personal", "Personal")
-        assert note["category"] == "Personal"
+        validated = NoteData(**note)
+        assert validated.category == "Personal"
 
     @allure.title("Create note with empty title fails")
     @pytest.mark.regression
@@ -117,9 +125,11 @@ class TestGetNotes:
 
         with allure.step("Verify note data"):
             assert response.status_code == 200
-            data = response.json()["data"]
-            assert data["id"] == note_id
-            assert data["title"] == "Specific Note"
+            result = NoteResponse(**response.json())
+            assert result.data.id == note_id
+            assert result.data.title == "Specific Note"
+            assert result.data.category == "Personal"
+            assert result.data.completed is False
 
     @allure.title("Get non-existent note returns error")
     @pytest.mark.regression
@@ -155,11 +165,11 @@ class TestUpdateNote:
 
         with allure.step("Verify update"):
             assert response.status_code == 200
-            data = response.json()["data"]
-            assert data["title"] == "Updated Title"
-            assert data["completed"] is True
-            assert data["category"] == "Work"
-            assert data["updated_at"] != created["created_at"]
+            result = NoteResponse(**response.json())
+            assert result.data.title == "Updated Title"
+            assert result.data.completed is True
+            assert result.data.category == "Work"
+            assert result.data.updated_at != created["updated_at"]
 
     @allure.title("Update non-existent note fails")
     @pytest.mark.regression
@@ -191,7 +201,8 @@ class TestDeleteNote:
 
         with allure.step("Verify deletion"):
             assert response.status_code == 200
-            assert response.json()["success"] is True
+            result = NoteDeleteResponse(**response.json())
+            assert result.success is True
 
         with allure.step("Verify note is gone"):
             get_response = authenticated_client.get(endpoints.note_by_id(note_id))

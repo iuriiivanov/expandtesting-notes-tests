@@ -5,6 +5,7 @@ import pytest
 import requests
 
 from backend.src.api import endpoints
+from backend.src.models.health import HealthResponse
 
 
 @allure.feature("Health Check")
@@ -18,7 +19,7 @@ def test_health_check() -> None:
     with allure.step("Verify response status is 200"):
         assert response.status_code == 200
 
-    with allure.step("Verify response contains success=true"):
-        data = response.json()
-        assert data["success"] is True
-        assert data["status"] == 200
+    with allure.step("Verify response structure and data"):
+        result = HealthResponse(**response.json())
+        assert result.success is True
+        assert result.status == 200

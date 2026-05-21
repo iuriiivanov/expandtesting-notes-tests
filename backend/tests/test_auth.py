@@ -6,6 +6,7 @@ import pytest
 from backend.src.api import endpoints
 from backend.src.api.auth import register_user
 from backend.src.api.client import ApiClient
+from backend.src.models.user import UserLoginResponse, UserRegisterResponse
 from backend.src.utils.helpers import generate_unique_email, generate_unique_name
 
 
@@ -30,12 +31,13 @@ class TestUserRegistration:
         with allure.step("Verify status code 201"):
             assert response.status_code == 201
 
-        with allure.step("Verify response structure"):
-            data = response.json()
-            assert data["success"] is True
-            assert data["status"] == 201
-            assert "id" in data["data"]
-            assert data["data"]["email"] == email
+        with allure.step("Verify response structure and data"):
+            result = UserRegisterResponse(**response.json())
+            assert result.success is True
+            assert result.status == 201
+            assert result.data.email == email
+            assert result.data.name == name
+            assert result.data.id
 
     @allure.title("Register with duplicate email fails")
     @pytest.mark.regression
@@ -110,9 +112,10 @@ class TestUserLogin:
 
         with allure.step("Verify successful login"):
             assert response.status_code == 200
-            data = response.json()
-            assert data["success"] is True
-            assert "token" in data["data"]
+            result = UserLoginResponse(**response.json())
+            assert result.success is True
+            assert result.data.token
+            assert result.data.email == email
 
     @allure.title("Login with wrong password fails")
     @pytest.mark.regression
