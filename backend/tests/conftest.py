@@ -67,6 +67,16 @@ def authenticated_client(test_password: str, test_logger: TestLogger) -> Generat
         try:
             delete_account(client)
             test_logger.info("Teardown", "Test user deleted", {"email": email})
+        except requests.exceptions.HTTPError:
+            try:
+                new_token = login_user(client, email=email, password=password)
+                client.set_token(new_token)
+                delete_account(client)
+                test_logger.info("Teardown", "Test user deleted after re-login", {"email": email})
+            except (requests.exceptions.RequestException, KeyError, ValueError) as e:
+                test_logger.error(
+                    "Teardown", "Failed to delete test user after re-login", {"error": str(e)}
+                )
         except (requests.exceptions.RequestException, KeyError, ValueError) as e:
             test_logger.error("Teardown", "Failed to delete test user", {"error": str(e)})
 
