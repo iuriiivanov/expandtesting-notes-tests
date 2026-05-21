@@ -49,7 +49,7 @@ class TestSecurity:
             response = client_b.get(endpoints.note_by_id(note_id))
 
         with allure.step("Verify access denied"):
-            assert response.status_code in (400, 401, 403, 404)
+            assert response.status_code == 404
 
     @allure.title("SQL injection attempt is handled safely")
     @pytest.mark.regression
@@ -63,6 +63,8 @@ class TestSecurity:
 
         assert response.status_code in (200, 400)
         if response.status_code == 200:
-            get_response = authenticated_client.get(endpoints.NOTES)
-            notes = get_response.json()["data"]
-            assert all(note["title"] == malicious_title for note in notes)
+            with allure.step("Verify note was saved as plain text, not executed as SQL"):
+                note_id = response.json()["data"]["id"]
+                get_response = authenticated_client.get(endpoints.note_by_id(note_id))
+                assert get_response.status_code == 200
+                assert get_response.json()["data"]["title"] == malicious_title
