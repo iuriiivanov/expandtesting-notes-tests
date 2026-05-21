@@ -1,7 +1,6 @@
 """JSON logger for test execution."""
 
 import json
-import os
 import shutil
 from datetime import datetime
 from pathlib import Path
@@ -34,7 +33,7 @@ class TestLogger:
     @staticmethod
     def _cleanup_old_archives(archive_dir: Path) -> None:
         """Keep only last 10 archive files."""
-        archives = sorted(archive_dir.glob("*.json"), key=os.path.getmtime)
+        archives = sorted(archive_dir.glob("*.json"), key=lambda p: p.stat().st_mtime)
         for old in archives[:-10]:
             old.unlink()
 
