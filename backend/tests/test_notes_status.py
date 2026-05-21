@@ -8,6 +8,7 @@ import pytest
 
 from backend.src.api import endpoints
 from backend.src.api.client import ApiClient
+from backend.src.models.note import NoteResponse
 
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 
@@ -34,9 +35,9 @@ class TestNoteStatus:
 
         with allure.step("Verify status updated"):
             assert response.status_code == 200
-            data = response.json()["data"]
-            assert data["completed"] is True
-            assert data["updated_at"] != created["created_at"]
+            result = NoteResponse(**response.json())
+            assert result.data.completed is True
+            assert result.data.updated_at != created["updated_at"]
 
     @allure.title("Mark note as not completed")
     @pytest.mark.smoke

@@ -92,6 +92,8 @@ def note_factory(
     created_notes: list[str] = []
 
     def _create(title: str, description: str, category: str) -> dict[str, Any]:
+        from backend.src.models.note import NoteResponse
+
         with allure.step(f"Create note: {title}"):
             test_logger.info(
                 "NoteFactory", f"Creating note: {title}", {"title": title, "category": category}
@@ -101,7 +103,8 @@ def note_factory(
             ).model_dump()
             response = authenticated_client.post(endpoints.NOTES, data=payload)
             response.raise_for_status()
-            note: dict[str, Any] = response.json()["data"]
+            result = NoteResponse(**response.json())
+            note: dict[str, Any] = result.data.model_dump()
             created_notes.append(note["id"])
             test_logger.info(
                 "NoteFactory",
