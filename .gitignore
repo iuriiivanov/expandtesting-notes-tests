@@ -52,9 +52,6 @@ allure-history/
 # Local scripts not tracked in repo
 generate_traceability_matrix.py
 
-# Auto-generated files
-docs/traceability-matrix.md
-
 # OS
 .DS_Store
 Thumbs.db
