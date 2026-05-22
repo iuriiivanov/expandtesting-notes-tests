@@ -237,12 +237,12 @@ class TestUpdateNote:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
-    @allure.title("User cannot access another user's note")
+    @allure.title("User cannot update another user's note")
     @pytest.mark.integration
-    def test_get_note_isolation(
+    def test_update_note_isolation(
         self, authenticated_client: ApiClient, client: ApiClient, test_password: str
     ) -> None:
-        """TC-002.3.3: User cannot access another user's note."""
+        """TC-002.4.5: User cannot update another user's note."""
         from backend.src.api.auth import login_user, register_user
 
         email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
@@ -255,8 +255,15 @@ class TestUpdateNote:
         )
         note_id = note_response.json()["data"]["id"]
 
-        with allure.step("User B attempts to access User A's note"):
-            response = authenticated_client.get(endpoints.note_by_id(note_id))
+        payload = {
+            "title": "Hacked",
+            "description": "Hacked",
+            "completed": "true",
+            "category": "Work",
+        }
+
+        with allure.step("User B attempts to update User A's note"):
+            response = authenticated_client.put(endpoints.note_by_id(note_id), data=payload)
 
         with allure.step("Verify access denied"):
             assert response.status_code == 404
@@ -303,12 +310,32 @@ class TestDeleteNote:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
-    @allure.title("User cannot access another user's note")
+    @allure.title("Re-delete already deleted note fails")
+    @pytest.mark.regression
+    def test_delete_note_twice(
+        self, authenticated_client: ApiClient, note_factory: NoteFactory
+    ) -> None:
+        """TC-002.5.5: Re-delete already deleted note returns 404."""
+        created = note_factory("To Delete Twice", "Delete me", "Home")
+        note_id = created["id"]
+
+        with allure.step("Delete note first time"):
+            first_response = authenticated_client.delete(endpoints.note_by_id(note_id))
+            assert first_response.status_code == 200
+
+        with allure.step("Attempt to delete same note again"):
+            second_response = authenticated_client.delete(endpoints.note_by_id(note_id))
+
+        with allure.step("Verify 400 Bad Request"):
+            assert second_response.status_code == 404
+            assert second_response.json()["success"] is False
+
+    @allure.title("User cannot delete another user's note")
     @pytest.mark.integration
-    def test_get_note_isolation(
+    def test_delete_note_isolation(
         self, authenticated_client: ApiClient, client: ApiClient, test_password: str
     ) -> None:
-        """TC-002.3.3: User cannot access another user's note."""
+        """TC-002.5.4: User cannot delete another user's note."""
         from backend.src.api.auth import login_user, register_user
 
         email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
@@ -321,8 +348,8 @@ class TestDeleteNote:
         )
         note_id = note_response.json()["data"]["id"]
 
-        with allure.step("User B attempts to access User A's note"):
-            response = authenticated_client.get(endpoints.note_by_id(note_id))
+        with allure.step("User B attempts to delete User A's note"):
+            response = authenticated_client.delete(endpoints.note_by_id(note_id))
 
         with allure.step("Verify access denied"):
             assert response.status_code == 404
