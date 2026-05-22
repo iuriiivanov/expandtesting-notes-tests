@@ -23,3 +23,20 @@ def test_health_check() -> None:
         result = HealthResponse(**response.json())
         assert result.success is True
         assert result.status == 200
+
+
+@allure.feature("Health Check")
+@allure.story("API Availability")
+@pytest.mark.regression
+def test_health_check_response_time() -> None:
+    """TC-006.1.2: Health check response time under 2 seconds."""
+    import time
+
+    with allure.step("Send GET request to /health-check and measure time"):
+        start = time.time()
+        response = requests.get(endpoints.HEALTH_CHECK, timeout=10)
+        elapsed = time.time() - start
+
+    with allure.step(f"Verify response time: {elapsed:.2f}s"):
+        assert response.status_code == 200
+        assert elapsed < 2.0
