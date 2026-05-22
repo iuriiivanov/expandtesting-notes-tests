@@ -8,12 +8,7 @@ import pytest
 
 from backend.src.api import endpoints
 from backend.src.api.client import ApiClient
-from backend.src.models.note import (
-    NoteData,
-    NoteDeleteResponse,
-    NoteResponse,
-    NoteUpdateRequest,
-)
+from backend.src.models.note import NoteData, NoteDeleteResponse, NoteResponse, NoteUpdateRequest
 
 NoteFactory = Callable[[str, str, str], dict[str, Any]]
 
@@ -111,6 +106,14 @@ class TestGetNotes:
             assert data["success"] is True
             assert len(data["data"]) >= 2
 
+    @allure.title("Get all notes without token fails")
+    @pytest.mark.regression
+    def test_get_all_notes_no_token(self, client: ApiClient) -> None:
+        """TC-002.2.2: Get notes list without token returns 401."""
+        response = client.get(endpoints.NOTES)
+        assert response.status_code == 401
+        assert response.json()["success"] is False
+
     @allure.title("Get note by ID returns correct note")
     @pytest.mark.smoke
     def test_get_note_by_id(
@@ -137,6 +140,14 @@ class TestGetNotes:
         """TC-002.3.2: Non-existent note returns 400."""
         response = authenticated_client.get(endpoints.note_by_id("nonexistent123"))
         assert response.status_code == 400
+
+    @allure.title("Get note by ID without token fails")
+    @pytest.mark.regression
+    def test_get_note_by_id_no_token(self, client: ApiClient) -> None:
+        """TC-002.3.4: Get note by ID without token returns 401."""
+        response = client.get(endpoints.note_by_id("some-id"))
+        assert response.status_code == 401
+        assert response.json()["success"] is False
 
 
 @allure.feature("Notes CRUD")
@@ -181,6 +192,17 @@ class TestUpdateNote:
         response = authenticated_client.put(endpoints.note_by_id("nonexistent"), data=payload)
         assert response.status_code == 400
 
+    @allure.title("Update note without token fails")
+    @pytest.mark.regression
+    def test_update_note_no_token(self, client: ApiClient) -> None:
+        """TC-002.4.3: Update note without token returns 401."""
+        response = client.put(
+            endpoints.note_by_id("some-id"),
+            data={"title": "Test", "description": "Test", "completed": "true", "category": "Home"},
+        )
+        assert response.status_code == 401
+        assert response.json()["success"] is False
+
 
 @allure.feature("Notes CRUD")
 @allure.story("Delete Note")
@@ -214,3 +236,11 @@ class TestDeleteNote:
         """TC-002.5.2: Delete non-existent note returns 400."""
         response = authenticated_client.delete(endpoints.note_by_id("nonexistent"))
         assert response.status_code == 400
+
+    @allure.title("Delete note without token fails")
+    @pytest.mark.regression
+    def test_delete_note_no_token(self, client: ApiClient) -> None:
+        """TC-002.5.3: Delete note without token returns 401."""
+        response = client.delete(endpoints.note_by_id("some-id"))
+        assert response.status_code == 401
+        assert response.json()["success"] is False

@@ -67,3 +67,11 @@ class TestNoteStatus:
             endpoints.note_by_id("nonexistent"), data={"completed": "true"}
         )
         assert response.status_code == 400
+
+    @allure.title("Update note status without token fails")
+    @pytest.mark.regression
+    def test_update_status_no_token(self, client: ApiClient) -> None:
+        """TC-003.1.4: Update note status without token returns 401."""
+        response = client.patch(endpoints.note_by_id("some-id"), data={"completed": "true"})
+        assert response.status_code == 401
+        assert response.json()["success"] is False
