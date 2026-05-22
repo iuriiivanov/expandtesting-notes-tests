@@ -12,6 +12,16 @@ from backend.src.api.client import ApiClient
 class TestValidation:
     """Tests for validation and error responses."""
 
+    @allure.title("Request with incorrect HTTP method returns 404")
+    @pytest.mark.regression
+    def test_incorrect_http_method(self, client: ApiClient) -> None:
+        """TC-004.1.2: Send POST to GET endpoint returns 404."""
+        with allure.step("Send POST to /health-check instead of GET"):
+            response = client.post(endpoints.HEALTH_CHECK)
+
+        with allure.step("Verify 404 Not Found"):
+            assert response.status_code == 404
+
     @allure.title("Request to non-existent endpoint returns 404")
     @pytest.mark.regression
     def test_nonexistent_endpoint(self, client: ApiClient) -> None:
