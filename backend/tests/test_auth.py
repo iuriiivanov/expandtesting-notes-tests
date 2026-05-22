@@ -150,6 +150,20 @@ class TestUserLogin:
             assert response.status_code == 401
             assert response.json()["success"] is False
 
+    @allure.title("Login with non-existent email fails")
+    @pytest.mark.regression
+    def test_login_nonexistent_email(self, client: ApiClient) -> None:
+        """TC-001.2.3: Login with non-existent email returns 401."""
+        with allure.step("Attempt login with non-existent email"):
+            response = client.post(
+                endpoints.USERS_LOGIN,
+                data={"email": "nonexistent@example.com", "password": "SomePass123!"},
+            )
+
+        with allure.step("Verify 401 Unauthorized"):
+            assert response.status_code == 401
+            assert response.json()["success"] is False
+
     @allure.title("Login without token access to protected endpoint fails")
     @pytest.mark.regression
     def test_access_without_token(self, client: ApiClient) -> None:
