@@ -20,7 +20,7 @@ This project is built to demonstrate my skills and knowledge in automated softwa
 ├── backend/                API tests (Python, pytest, requests)
 │   ├── src/                API client, models, payloads, utils
 │   └── tests/              pytest test suites
-├── docs/                   API documentation
+├── docs/                   Project documentation
 ├── frontend/               UI tests (Python, Playwright) — coming soon
 ├── run_tests.sh            Test runner with Allure support
 ├── pyproject.toml          Python dependencies and tool configs
