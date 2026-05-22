@@ -88,6 +88,19 @@ class TestUserRegistration:
         with allure.step("Verify 400 Bad Request"):
             assert response.status_code == 400
 
+    @allure.title("Register without required fields fails")
+    @pytest.mark.regression
+    def test_register_missing_fields(self, client: ApiClient) -> None:
+        """TC-001.1.6: Registration without required fields returns 400."""
+        with allure.step("Send registration without password"):
+            response = client.post(
+                endpoints.USERS_REGISTER, data={"name": "Test", "email": generate_unique_email()}
+            )
+
+        with allure.step("Verify 400 Bad Request"):
+            assert response.status_code == 400
+            assert response.json()["success"] is False
+
 
 @allure.feature("Authentication")
 @allure.story("User Login")
