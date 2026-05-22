@@ -124,6 +124,19 @@ class TestGetNotes:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
+    @allure.title("Get notes list when no notes exist returns empty array")
+    @pytest.mark.regression
+    def test_get_all_notes_empty(self, authenticated_client: ApiClient) -> None:
+        """TC-002.2.3: Get notes list when no notes returns 200 with empty data."""
+        with allure.step("Get all notes for user with no notes"):
+            response = authenticated_client.get(endpoints.NOTES)
+
+        with allure.step("Verify empty array response"):
+            assert response.status_code == 200
+            data = response.json()
+            assert data["success"] is True
+            assert data["data"] == []
+
     @allure.title("Get note by ID returns correct note")
     @pytest.mark.smoke
     def test_get_note_by_id(
