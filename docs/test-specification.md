@@ -163,7 +163,7 @@
 | TC-002.1.5 | Create a note without a description            | User is logged in        | 1. Send POST /notes with description=""                         | Status 400, validation error                                                 | High     |
 | TC-002.1.6 | Create a note with an invalid category         | User is logged in        | 1. Send POST /notes with category="Invalid"                     | Status 400, validation error (enum: Home, Work, Personal)                    | High     |
 | TC-002.1.7 | Create a note without a token                  | —                        | 1. Send POST /notes without x-auth-token                        | Status 401, message "Unauthorized Request"                                   | High     |
-| TC-002.1.8 | Create a note with a very long title           | User is logged in        | 1. Send POST /notes with title > 1000 characters                | Check system behavior (400 or 200)                                           | Low      |
+| TC-002.1.8 | Create a note with title > 100 characters      | User is logged in        | 1. Send POST /notes with title > 1000 characters                | Status 400, message "Title must be between 4 and 100 characters"             | Low      |
 
 #### US-002.2: Retrieve Notes List
 | ID         | Name                                           | Preconditions                          | Steps                                            | Expected Result                                                | Priority |
