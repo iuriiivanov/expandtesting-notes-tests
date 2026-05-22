@@ -64,6 +64,16 @@ class TestCreateNote:
         assert response.status_code == 400
         assert response.json()["success"] is False
 
+    @allure.title("Create note without description fails")
+    @pytest.mark.regression
+    def test_create_note_empty_description(self, authenticated_client: ApiClient) -> None:
+        """TC-002.1.5: Create note without description returns 400."""
+        response = authenticated_client.post(
+            endpoints.NOTES, data={"title": "Test", "description": "", "category": "Home"}
+        )
+        assert response.status_code == 400
+        assert response.json()["success"] is False
+
     @allure.title("Create note with invalid category fails")
     @pytest.mark.regression
     def test_create_note_invalid_category(self, authenticated_client: ApiClient) -> None:
