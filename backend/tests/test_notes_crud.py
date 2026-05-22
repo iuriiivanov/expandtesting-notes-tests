@@ -92,6 +92,22 @@ class TestCreateNote:
         )
         assert response.status_code == 401
 
+    @allure.title("Create note with title exceeding max length fails")
+    @pytest.mark.regression
+    def test_create_note_long_title(self, authenticated_client: ApiClient) -> None:
+        """TC-002.1.8: Create note with title > 100 characters returns 400."""
+        long_title = "A" * 101
+
+        with allure.step("Send POST with title exceeding 100 characters"):
+            response = authenticated_client.post(
+                endpoints.NOTES,
+                data={"title": long_title, "description": "Test", "category": "Home"},
+            )
+
+        with allure.step("Verify 400 Bad Request with validation message"):
+            assert response.status_code == 400
+            assert response.json()["success"] is False
+            assert "100 characters" in response.json()["message"]
 
 @allure.feature("Notes CRUD")
 @allure.story("Get Notes")
