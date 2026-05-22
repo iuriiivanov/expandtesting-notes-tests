@@ -223,3 +223,15 @@ class TestUserLogout:
         with allure.step("Verify token is invalidated"):
             profile_response = authenticated_client.get(endpoints.USERS_PROFILE)
             assert profile_response.status_code == 401
+
+    @allure.title("Logout with invalid token fails")
+    @pytest.mark.regression
+    def test_logout_invalid_token(self, client: ApiClient) -> None:
+        """TC-001.6.2: Logout with invalid token returns 401."""
+        with allure.step("Send logout with fake token"):
+            client.set_token("invalid-token-12345")
+            response = client.delete(endpoints.USERS_LOGOUT)
+
+        with allure.step("Verify 401 Unauthorized"):
+            assert response.status_code == 401
+            assert response.json()["success"] is False
