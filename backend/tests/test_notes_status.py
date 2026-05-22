@@ -76,12 +76,12 @@ class TestNoteStatus:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
-    @allure.title("User cannot access another user's note")
+    @allure.title("User cannot update status of another user's note")
     @pytest.mark.integration
-    def test_get_note_isolation(
+    def test_update_status_isolation(
         self, authenticated_client: ApiClient, client: ApiClient, test_password: str
     ) -> None:
-        """TC-002.3.3: User cannot access another user's note."""
+        """TC-003.1.5: User cannot update status of another user's note."""
         from backend.src.api.auth import login_user, register_user
 
         email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
@@ -94,8 +94,10 @@ class TestNoteStatus:
         )
         note_id = note_response.json()["data"]["id"]
 
-        with allure.step("User B attempts to access User A's note"):
-            response = authenticated_client.get(endpoints.note_by_id(note_id))
+        with allure.step("User B attempts to update status of User A's note"):
+            response = authenticated_client.patch(
+                endpoints.note_by_id(note_id), data={"completed": "true"}
+            )
 
         with allure.step("Verify access denied"):
             assert response.status_code == 404
