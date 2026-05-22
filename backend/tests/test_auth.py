@@ -88,6 +88,20 @@ class TestUserRegistration:
         with allure.step("Verify 400 Bad Request"):
             assert response.status_code == 400
 
+    @allure.title("Register with short password fails")
+    @pytest.mark.regression
+    def test_register_short_password(self, client: ApiClient) -> None:
+        """TC-001.1.5: Registration with short password returns 400."""
+        with allure.step("Send registration with short password"):
+            response = client.post(
+                endpoints.USERS_REGISTER,
+                data={"name": "Test", "email": generate_unique_email(), "password": "123"},
+            )
+
+        with allure.step("Verify 400 Bad Request"):
+            assert response.status_code == 400
+            assert response.json()["success"] is False
+
     @allure.title("Register without required fields fails")
     @pytest.mark.regression
     def test_register_missing_fields(self, client: ApiClient) -> None:
