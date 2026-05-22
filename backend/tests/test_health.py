@@ -12,7 +12,7 @@ from backend.src.models.health import HealthResponse
 @allure.story("API Availability")
 @pytest.mark.smoke
 def test_health_check() -> None:
-    """Verify API health endpoint returns success."""
+    """TC-006.1.1: Verify API health status."""
     with allure.step("Send GET request to /health-check"):
         response = requests.get(endpoints.HEALTH_CHECK, timeout=10)
 
