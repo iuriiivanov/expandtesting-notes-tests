@@ -14,6 +14,21 @@ from backend.src.utils.helpers import generate_unique_email, generate_unique_nam
 class TestSecurity:
     """Security-related tests."""
 
+    @allure.title("Access with expired token returns 401")
+    @pytest.mark.regression
+    def test_expired_token_access(self, authenticated_client: ApiClient) -> None:
+        """TC-005.1.1: Access with expired/invalidated token returns 401."""
+        with allure.step("Logout to invalidate token"):
+            logout_response = authenticated_client.delete(endpoints.USERS_LOGOUT)
+            assert logout_response.status_code == 200
+
+        with allure.step("Attempt to access protected endpoint with invalidated token"):
+            response = authenticated_client.get(endpoints.NOTES)
+
+        with allure.step("Verify 401 Unauthorized"):
+            assert response.status_code == 401
+            assert response.json()["success"] is False
+
     @allure.title("Access with fake token returns 401")
     @pytest.mark.regression
     def test_fake_token_access(self, client: ApiClient) -> None:
