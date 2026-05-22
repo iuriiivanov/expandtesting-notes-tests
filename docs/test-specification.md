@@ -173,30 +173,30 @@
 | TC-002.2.3 | Retrieve notes list when no notes exist        | User is logged in, no notes            | 1. Send GET /notes                               | Status 200, success=true, data=\[] (empty array)               | Medium   |
 
 #### US-002.3: Retrieve Note by ID
-| ID         | Name                                           | Preconditions                                                  | Steps                                          | Expected Result                                      | Priority |
-| ---------- | ---------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------- | -------- |
-| TC-002.3.1 | Retrieve an existing note by ID                | User is logged in, note exists                                 | 1. Send GET /notes/{id} with a valid id        | Status 200, success=true, note object is returned    | High     |
-| TC-002.3.2 | Retrieve a non-existent note                   | User is logged in                                              | 1. Send GET /notes/{invalid_id}                | Status 400 or 404, error message                     | High     |
-| TC-002.3.3 | Retrieve another user's note                 | User A is logged in, note belongs to User B                    | 1. Send GET /notes/{user_B_note_id}             | Status 400 or 401/403 (verify actual behavior)       | High     |
-| TC-002.3.4 | Retrieve a note without a token                | —                                                              | 1. Send GET /notes/{id} without x-auth-token   | Status 401, message "Unauthorized Request"           | High     |
+| ID         | Name                                           | Preconditions                                                  | Steps                                          | Expected Result                                 | Priority |
+| ---------- | ---------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------- |-------------------------------------------------| -------- |
+| TC-002.3.1 | Retrieve an existing note by ID                | User is logged in, note exists                                 | 1. Send GET /notes/{id} with a valid id        | Status 200, success=true, note object is returned | High     |
+| TC-002.3.2 | Retrieve a non-existent note                   | User is logged in                                              | 1. Send GET /notes/{invalid_id}                | Status 400 or 404, error message                | High     |
+| TC-002.3.3 | Retrieve another user's note                 | User A is logged in, note belongs to User B                    | 1. Send GET /notes/{user_B_note_id}             | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                            | High     |
+| TC-002.3.4 | Retrieve a note without a token                | —                                                              | 1. Send GET /notes/{id} without x-auth-token   | Status 401, message "Unauthorized Request"      | High     |
 
 #### US-002.4: Update Note
-| ID         | Name                                           | Preconditions                                | Steps                                                                                      | Expected Result                                           | Priority |
-| ---------- | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------- | -------- |
-| TC-002.4.1 | Successfully update all note fields            | User is logged in, note exists                 | 1. Send PUT /notes/{id} with new title, description, completed=true, category="Work"     | Status 200, success=true, fields updated, updated_at changed | High     |
-| TC-002.4.2 | Update a non-existent note                     | User is logged in                              | 1. Send PUT /notes/{invalid_id}                                                            | Status 400, error message                                 | High     |
-| TC-002.4.3 | Update a note without a token                  | —                                              | 1. Send PUT /notes/{id} without x-auth-token                                             | Status 401, message "Unauthorized Request"                | High     |
-| TC-002.4.4 | Update a note with an invalid category         | User is logged in                              | 1. Send PUT /notes/{id} with category="Invalid"                                            | Status 400, validation error                              | Medium   |
-| TC-002.4.5 | Update another user's note                     | User A is logged in                            | 1. Send PUT /notes/{user_B_note_id}                                                      | Status 400 or 401/403                                     | High     |
+| ID         | Name                                           | Preconditions       | Steps                                 | Expected Result                                              | Priority |
+| ---------- | ---------------------------------------------- | ------------------- | ------------------------------------- |--------------------------------------------------------------| -------- |
+| TC-002.4.1 | Successfully update all note fields            | User is logged in, note exists | 1. Send PUT /notes/{id} with new title, description, completed=true, category="Work" | Status 200, success=true, fields updated, updated_at changed | High     |
+| TC-002.4.2 | Update a non-existent note                     | User is logged in   | 1. Send PUT /notes/{invalid_id}       | Status 400, error message                                    | High     |
+| TC-002.4.3 | Update a note without a token                  | —                   | 1. Send PUT /notes/{id} without x-auth-token | Status 401, message "Unauthorized Request"                   | High     |
+| TC-002.4.4 | Update a note with an invalid category         | User is logged in   | 1. Send PUT /notes/{id} with category="Invalid" | Status 400, validation error                                 | Medium   |
+| TC-002.4.5 | Update another user's note                     | User A is logged in | 1. Send PUT /notes/{user_B_note_id} | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                                         | High     |
 
 #### US-002.5: Delete Note
-| ID         | Name                                           | Preconditions                                | Steps                                             | Expected Result                                      | Priority |
-| ---------- | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------- | -------- |
+| ID         | Name                                           | Preconditions                                | Steps                                             | Expected Result                                       | Priority |
+| ---------- | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------- |-------------------------------------------------------| -------- |
 | TC-002.5.1 | Successfully delete an existing note           | User is logged in, note exists                 | 1. Send DELETE /notes/{id} with a valid id        | Status 200, success=true, message "Successful Request" | High     |
-| TC-002.5.2 | Delete a non-existent note                     | User is logged in                              | 1. Send DELETE /notes/{invalid_id}                | Status 400, error message                            | High     |
-| TC-002.5.3 | Delete a note without a token                  | —                                              | 1. Send DELETE /notes/{id} without x-auth-token   | Status 401, message "Unauthorized Request"           | High     |
-| TC-002.5.4 | Delete another user's note                     | User A is logged in                            | 1. Send DELETE /notes/{user_B_note_id}            | Status 400 or 401/403                                | High     |
-| TC-002.5.5 | Re-delete an already deleted note              | Note already deleted                           | 1. Send DELETE /notes/{id} again                  | Status 400, message "Bad Request"                    | Medium   |
+| TC-002.5.2 | Delete a non-existent note                     | User is logged in                              | 1. Send DELETE /notes/{invalid_id}                | Status 400, error message                             | High     |
+| TC-002.5.3 | Delete a note without a token                  | —                                              | 1. Send DELETE /notes/{id} without x-auth-token   | Status 401, message "Unauthorized Request"            | High     |
+| TC-002.5.4 | Delete another user's note                     | User A is logged in                            | 1. Send DELETE /notes/{user_B_note_id}            | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                                            | High     |
+| TC-002.5.5 | Re-delete an already deleted note              | Note already deleted                           | 1. Send DELETE /notes/{id} again                  | Status 400, message "Bad Request"                     | Medium   |
 
 ### EP-003: Note Status Management
 
@@ -207,7 +207,7 @@
 | TC-003.1.2 | Set completed=false                            | User is logged in, note exists, completed=true                | 1. Send PATCH /notes/{id} with completed=false    | Status 200, success=true, completed=false                 | High     |
 | TC-003.1.3 | Update status of a non-existent note           | User is logged in                                             | 1. Send PATCH /notes/{invalid_id}                 | Status 400, error message                                 | High     |
 | TC-003.1.4 | Update status without a token                  | —                                                             | 1. Send PATCH /notes/{id} without x-auth-token    | Status 401, message "Unauthorized Request"              | High     |
-| TC-003.1.5 | Update status of another user's note           | User A is logged in                                           | 1. Send PATCH /notes/{user_B_note_id}             | Status 400 or 401/403                                     | High     |
+| TC-003.1.5 | Update status of another user's note           | User A is logged in                                           | 1. Send PATCH /notes/{user_B_note_id}             | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                                     | High     |
 
 ### EP-004: Validation & Error Handling
 

@@ -141,6 +141,30 @@ class TestGetNotes:
         response = authenticated_client.get(endpoints.note_by_id("nonexistent123"))
         assert response.status_code == 400
 
+    @allure.title("User cannot access another user's note")
+    @pytest.mark.integration
+    def test_get_note_isolation(
+        self, authenticated_client: ApiClient, client: ApiClient, test_password: str
+    ) -> None:
+        """TC-002.3.3: User cannot access another user's note."""
+        from backend.src.api.auth import login_user, register_user
+
+        email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
+        register_user(client, name="UserA", email=email_a, password=test_password)
+        token_a = login_user(client, email=email_a, password=test_password)
+        client_a = ApiClient(token=token_a)
+
+        note_response = client_a.post(
+            endpoints.NOTES, data={"title": "Private", "description": "Secret", "category": "Home"}
+        )
+        note_id = note_response.json()["data"]["id"]
+
+        with allure.step("User B attempts to access User A's note"):
+            response = authenticated_client.get(endpoints.note_by_id(note_id))
+
+        with allure.step("Verify access denied"):
+            assert response.status_code == 404
+
     @allure.title("Get note by ID without token fails")
     @pytest.mark.regression
     def test_get_note_by_id_no_token(self, client: ApiClient) -> None:
@@ -203,6 +227,30 @@ class TestUpdateNote:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
+    @allure.title("User cannot access another user's note")
+    @pytest.mark.integration
+    def test_get_note_isolation(
+        self, authenticated_client: ApiClient, client: ApiClient, test_password: str
+    ) -> None:
+        """TC-002.3.3: User cannot access another user's note."""
+        from backend.src.api.auth import login_user, register_user
+
+        email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
+        register_user(client, name="UserA", email=email_a, password=test_password)
+        token_a = login_user(client, email=email_a, password=test_password)
+        client_a = ApiClient(token=token_a)
+
+        note_response = client_a.post(
+            endpoints.NOTES, data={"title": "Private", "description": "Secret", "category": "Home"}
+        )
+        note_id = note_response.json()["data"]["id"]
+
+        with allure.step("User B attempts to access User A's note"):
+            response = authenticated_client.get(endpoints.note_by_id(note_id))
+
+        with allure.step("Verify access denied"):
+            assert response.status_code == 404
+
 
 @allure.feature("Notes CRUD")
 @allure.story("Delete Note")
@@ -244,3 +292,27 @@ class TestDeleteNote:
         response = client.delete(endpoints.note_by_id("some-id"))
         assert response.status_code == 401
         assert response.json()["success"] is False
+
+    @allure.title("User cannot access another user's note")
+    @pytest.mark.integration
+    def test_get_note_isolation(
+        self, authenticated_client: ApiClient, client: ApiClient, test_password: str
+    ) -> None:
+        """TC-002.3.3: User cannot access another user's note."""
+        from backend.src.api.auth import login_user, register_user
+
+        email_a = f"isolation_{__import__('os').urandom(4).hex()}@example.com"
+        register_user(client, name="UserA", email=email_a, password=test_password)
+        token_a = login_user(client, email=email_a, password=test_password)
+        client_a = ApiClient(token=token_a)
+
+        note_response = client_a.post(
+            endpoints.NOTES, data={"title": "Private", "description": "Secret", "category": "Home"}
+        )
+        note_id = note_response.json()["data"]["id"]
+
+        with allure.step("User B attempts to access User A's note"):
+            response = authenticated_client.get(endpoints.note_by_id(note_id))
+
+        with allure.step("Verify access denied"):
+            assert response.status_code == 404
