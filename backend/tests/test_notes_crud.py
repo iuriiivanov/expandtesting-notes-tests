@@ -250,6 +250,29 @@ class TestUpdateNote:
         assert response.status_code == 401
         assert response.json()["success"] is False
 
+    @allure.title("Update note with invalid category fails")
+    @pytest.mark.regression
+    def test_update_note_invalid_category(
+        self, authenticated_client: ApiClient, note_factory: NoteFactory
+    ) -> None:
+        """TC-002.4.4: Update note with invalid category returns 400."""
+        created = note_factory("Original", "Original Desc", "Home")
+        note_id = created["id"]
+
+        payload = {
+            "title": "Updated",
+            "description": "Updated",
+            "completed": "false",
+            "category": "InvalidCategory",
+        }
+
+        with allure.step("Send PUT with invalid category"):
+            response = authenticated_client.put(endpoints.note_by_id(note_id), data=payload)
+
+        with allure.step("Verify 400 Bad Request"):
+            assert response.status_code == 400
+            assert response.json()["success"] is False
+
     @allure.title("User cannot update another user's note")
     @pytest.mark.integration
     def test_update_note_isolation(
