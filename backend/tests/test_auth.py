@@ -178,6 +178,17 @@ class TestUserLogin:
             assert response.status_code == 401
             assert response.json()["success"] is False
 
+    @allure.title("Login with empty fields fails")
+    @pytest.mark.regression
+    def test_login_empty_fields(self, client: ApiClient) -> None:
+        """TC-001.2.4: Login with empty fields returns 400."""
+        with allure.step("Send login with empty email and password"):
+            response = client.post(endpoints.USERS_LOGIN, data={"email": "", "password": ""})
+
+        with allure.step("Verify 400 Bad Request"):
+            assert response.status_code == 400
+            assert response.json()["success"] is False
+
     @allure.title("Login without token access to protected endpoint fails")
     @pytest.mark.regression
     def test_access_without_token(self, client: ApiClient) -> None:
