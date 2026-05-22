@@ -196,7 +196,7 @@
 | TC-002.5.2 | Delete a non-existent note                     | User is logged in                              | 1. Send DELETE /notes/{invalid_id}                | Status 400, error message                             | High     |
 | TC-002.5.3 | Delete a note without a token                  | —                                              | 1. Send DELETE /notes/{id} without x-auth-token   | Status 401, message "Unauthorized Request"            | High     |
 | TC-002.5.4 | Delete another user's note                     | User A is logged in                            | 1. Send DELETE /notes/{user_B_note_id}            | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                                            | High     |
-| TC-002.5.5 | Re-delete an already deleted note              | Note already deleted                           | 1. Send DELETE /notes/{id} again                  | Status 400, message "Bad Request"                     | Medium   |
+| TC-002.5.5 | Re-delete an already deleted note              | Note already deleted                           | 1. Send DELETE /notes/{id} again                  | Status 404, message "No note was found with the provided ID, Maybe it was deleted"                     | Medium   |
 
 ### EP-003: Note Status Management
 
