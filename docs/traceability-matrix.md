@@ -2,8 +2,9 @@
 
 ### Epic EP-001: Authentication & User Management
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-001.1.1 | Successful registration of a new user | test_auth.py::test_register_user_success | 🟢 Covered |
 | TC-001.1.2 | Registration with an already existing email | test_auth.py::test_register_duplicate_email | 🟢 Covered |
 | TC-001.1.3 | Registration with an empty name | test_auth.py::test_register_empty_name | 🟢 Covered |
@@ -23,8 +24,9 @@
 
 ### Epic EP-002: Notes CRUD Operations
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-002.1.1 | Successfully create a note with category Home | test_notes_crud.py::test_create_note_home | 🟢 Covered |
 | TC-002.1.2 | Create a note with category Work | test_notes_crud.py::test_create_note_work | 🟢 Covered |
 | TC-002.1.3 | Create a note with category Personal | test_notes_crud.py::test_create_note_personal | 🟢 Covered |
@@ -53,8 +55,9 @@
 
 ### Epic EP-003: Note Status Management
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-003.1.1 | Set completed=true | test_notes_status.py::test_mark_note_completed | 🟢 Covered |
 | TC-003.1.2 | Set completed=false | test_notes_status.py::test_mark_note_not_completed | 🟢 Covered |
 | TC-003.1.3 | Update status of a non-existent note | test_notes_status.py::test_update_status_not_found | 🟢 Covered |
@@ -63,8 +66,9 @@
 
 ### Epic EP-004: Validation & Error Handling
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-004.1.1 | Send a request with invalid JSON | — | 🟡 Test Missing |
 | TC-004.1.2 | Send a request with an incorrect HTTP method | test_validation.py::test_incorrect_http_method | 🟢 Covered |
 | TC-004.1.3 | Send a request to a non-existent endpoint | test_validation.py::test_nonexistent_endpoint | 🟢 Covered |
@@ -72,8 +76,9 @@
 
 ### Epic EP-005: API Security
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-005.1.1 | Access protected endpoints with an expired token | test_auth.py::test_access_without_token | 🟢 Covered |
 | TC-005.1.1 | Access protected endpoints with an expired token | test_security.py::test_expired_token_access | 🟢 Covered |
 | TC-005.1.2 | Access protected endpoints with a fake token | test_security.py::test_fake_token_access | 🟢 Covered |
@@ -82,8 +87,9 @@
 
 ### Epic EP-006: Health Check
 ---
+
 | TC ID | Test Case | Test Function | Status |
-|-------|-----------|---------------|--------|
+| ----- | --------- | ------------- | ------ |
 | TC-006.1.1 | Verify API health status | test_health.py::test_health_check | 🟢 Covered |
 | TC-006.1.2 | Verify health-check response time | test_health.py::test_health_check_response_time | 🟢 Covered |
 
@@ -93,4 +99,4 @@
 - 🟡 **Test Missing**: 2 test cases have no test function yet
 - 🔵 **Case Missing**: 0 test functions have no test case in the spec
 
-_Last generated: 2026-05-22 20:44:44 UTC_
+_Last generated: 2026-05-23 21:21:05 UTC_
