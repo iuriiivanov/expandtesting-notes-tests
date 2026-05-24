@@ -49,8 +49,9 @@ allure-history/
 .env
 .env_dev
 
-# Local scripts not tracked in repo
+# Local docs and scripts not tracked in repo
 generate_traceability_matrix.py
+TODO.md
 
 # OS
 .DS_Store
