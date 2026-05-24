@@ -1,6 +1,7 @@
-theme: jekyll-theme-cayman
-title: ExpandTesting Notes API
-description: just-the-docs/just-the-docs@v0.10.0
-show_downloads: false
+title: Expand Testing - Notes App Tests
+remote_theme: just-the-docs/just-the-docs@v0.12.0
+
 plugins:
   - jekyll-remote-theme
+
+show_downloads: false
