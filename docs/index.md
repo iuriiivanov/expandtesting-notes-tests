@@ -1,12 +1,5 @@
 ---
 layout: default
+title: Notes API Documentation
+nav_order: 1
 ---
-
-# Expand Testing - Notes Application
-
-## Documentation
-
-### API
-
-- [Test Specification](test-specification.md)
-- [Traceability Matrix](traceability-matrix.md)
