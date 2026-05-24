@@ -1,4 +1,6 @@
 theme: jekyll-theme-cayman
 title: ExpandTesting Notes API
-description: Test automation project for ExpandTesting Notes API
+description: just-the-docs/just-the-docs@v0.10.0
 show_downloads: false
+plugins:
+  - jekyll-remote-theme
