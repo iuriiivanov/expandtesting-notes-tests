@@ -51,7 +51,7 @@ allure-history/
 
 # Local docs and scripts not tracked in repo
 generate_traceability_matrix.py
-TODO.md
+TODO.*
 
 # OS
 .DS_Store
