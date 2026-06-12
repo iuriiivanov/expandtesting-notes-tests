@@ -109,6 +109,7 @@ class TestCreateNote:
             assert response.json()["success"] is False
             assert "100 characters" in response.json()["message"]
 
+
 @allure.feature("Notes CRUD")
 @allure.story("Get Notes")
 class TestGetNotes:
